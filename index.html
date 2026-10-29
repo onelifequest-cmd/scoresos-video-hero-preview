@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Score OS — Homepage video hero (PREVIEW)</title>
+  <meta name="description" content="Preview only. Not the live scoresos.com homepage." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --deep-green: #0E2D1A;
+      --green: #1A6B3C;
+      --gold: #D4AF37;
+      --gold-light: #F4D96B;
+      --mint: #E8F4ED;
+      --ink: #0F172A;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--deep-green);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Full-viewport video stage */
+    .stage {
+      position: relative;
+      width: 100%;
+      min-height: 100svh;
+      height: 100svh;
+      overflow: hidden;
+      background: var(--deep-green);
+    }
+    .hero-video,
+    .hero-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero-poster { display: none; z-index: 0; }
+    .hero-video { z-index: 1; }
+
+    /* Soft vignette so the top bar stays readable */
+    .veil {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(14,45,26,0.55) 0%, rgba(14,45,26,0.15) 28%, rgba(14,45,26,0.05) 55%, rgba(14,45,26,0.45) 100%);
+    }
+
+    /* Top bar */
+    .topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      background: linear-gradient(180deg, rgba(14,45,26,0.72) 0%, rgba(14,45,26,0.28) 70%, rgba(14,45,26,0) 100%);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: #fff;
+      min-height: 44px;
+    }
+    .brand img {
+      width: 40px;
+      height: 40px;
+      display: block;
+      border-radius: 8px;
+    }
+    .brand-name {
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .brand-name span { color: var(--gold-light); }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.65rem 0.9rem;
+      border-radius: 999px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav a:hover,
+    .nav a:focus-visible {
+      background: rgba(244, 217, 107, 0.16);
+      color: var(--gold-light);
+      outline: none;
+    }
+    .nav a:focus-visible {
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+
+    .menu-btn {
+      display: none;
+      appearance: none;
+      border: 1px solid rgba(244,217,107,0.45);
+      background: rgba(14,45,26,0.55);
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+    .menu-btn svg { width: 22px; height: 22px; }
+
+    .preview-badge {
+      position: absolute;
+      left: 50%;
+      bottom: 1.25rem;
+      transform: translateX(-50%);
+      z-index: 10;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      background: rgba(14,45,26,0.55);
+      border: 1px solid rgba(212,175,55,0.35);
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .topbar { padding: 0.75rem 0.9rem; }
+      .brand-name { font-size: 0.95rem; }
+      .menu-btn { display: inline-flex; }
+      .nav {
+        display: none;
+        position: absolute;
+        top: calc(100% - 0.25rem);
+        right: 0.9rem;
+        left: 0.9rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        background: rgba(14,45,26,0.94);
+        border: 1px solid rgba(212,175,55,0.28);
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      }
+      .nav.open { display: flex; }
+      .nav a { justify-content: center; width: 100%; }
+      .preview-badge { font-size: 0.65rem; bottom: 0.9rem; }
+    }
+
+    /* Accessibility / data saver: show poster, hide video */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video { display: none !important; }
+      .hero-poster { display: block !important; }
+    }
+    body.save-data .hero-video { display: none !important; }
+    body.save-data .hero-poster { display: block !important; }
+  </style>
+</head>
+<body>
+  <div class="stage" role="banner" aria-label="Score OS homepage preview">
+    <!--
+      REAL VIDEO SWAP:
+      Replace media/hero-placeholder.mp4 and media/hero-placeholder.webm
+      with Patrick's final hero film (same filenames, or update the <source> hrefs below).
+      Also replace media/hero-poster.jpg with a matching still from the real film.
+      Keep H.264 MP4 + WebM, 1080p, muted, looping, under ~2–4 MB if possible.
+    -->
+    <video
+      class="hero-video"
+      id="heroVideo"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="media/hero-poster.jpg"
+      aria-hidden="true"
+    >
+      <source src="media/hero-placeholder.webm" type="video/webm" />
+      <source src="media/hero-placeholder.mp4" type="video/mp4" />
+    </video>
+    <img
+      class="hero-poster"
+      id="heroPoster"
+      src="media/hero-poster.jpg"
+      alt=""
+      width="1920"
+      height="1080"
+      decoding="async"
+    />
+    <div class="veil" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="https://scoresos.com/" aria-label="Score OS home">
+        <img src="media/logo.png" width="40" height="40" alt="" />
+        <span class="brand-name">Score <span>OS</span></span>
+      </a>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+        aria-label="Open menu"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <nav class="nav" id="primaryNav" aria-label="Primary">
+        <!-- Confirmed live targets (SPA on Google Frontend / Replit):
+             Login  → /login          (agency + client; role picker on page)
+             Pricing → /#pricing      (/plans is owner-auth only; live nav uses #pricing)
+             Info   → /#about         (live homepage About section; /for-clients is consumer page;
+                                       /scoreos is admin Console — do not use for Info)
+             Outsourcer login (not in this bar): /outsourcer/login
+        -->
+        <a href="https://scoresos.com/login">Login</a>
+        <a href="https://scoresos.com/#pricing">Pricing</a>
+        <a href="https://scoresos.com/#about">Info</a>
+      </nav>
+    </header>
+
+    <p class="preview-badge" aria-hidden="true">Preview only · not live scoresos.com</p>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('menuBtn');
+      var nav = document.getElementById('primaryNav');
+      if (btn && nav) {
+        btn.addEventListener('click', function () {
+          var open = nav.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        });
+        nav.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            nav.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.setAttribute('aria-label', 'Open menu');
+          });
+        });
+      }
+
+      // Data-saver / Save-Data: prefer the poster still
+      var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      var saveData = (conn && conn.saveData) || false;
+      if (saveData) {
+        document.body.classList.add('save-data');
+        var v = document.getElementById('heroVideo');
+        if (v) { try { v.pause(); v.removeAttribute('autoplay'); } catch (e) {} }
+      }
+
+      // Try to keep muted autoplay working on iOS after first paint
+      var video = document.getElementById('heroVideo');
+      if (video && !saveData && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var play = function () {
+          var p = video.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        };
+        if (video.readyState >= 2) play();
+        else video.addEventListener('loadeddata', play, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>
