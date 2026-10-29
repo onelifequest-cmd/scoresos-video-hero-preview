@@ -20,3 +20,11 @@ Notes: `/plans` is owner-auth only (redirects to billing). `/scoreos` is the adm
 ## Hosting
 
 Same pattern as earlier Scores/Conquest previews: public GitHub repo + Render static site (`onrender.com`), free, noindex.
+
+## Live preview URL
+
+- https://scoresos-video-hero-preview.onrender.com
+- Render service: `srv-dbhc228473hc739icum0` (static, free, auto-deploy from `main`)
+- GitHub: https://github.com/onelifequest-cmd/scoresos-video-hero-preview
+
+Does not touch scoresos.com DNS or the Replit production app.
